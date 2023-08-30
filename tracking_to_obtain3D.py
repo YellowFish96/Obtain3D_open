@@ -1,7 +1,11 @@
+import os
+
 import pandas as pd
 
+os.chdir("D:\Obtain3D\TrackPYSample")
+
 #\\read the txt file in the folder. read only the first 4 columns of the txt
-data = pd.pandas.read_csv('D:\Obtain3D/0409/0409.txt',header=None,sep=' ', names=['frame', 'particle', 'x', 'y','W','H','A','B','C','Class','D'])
+data = pd.pandas.read_csv('0409.txt',header=None,sep=' ', names=['frame', 'particle', 'x', 'y','W','H','A','B','C','Class','D'])
 
 #\\concatenate the columns we want to use for the tracking
 tpy_data = pd.concat([data['particle'], data['frame'],data['y'],data['x']],axis=1)
@@ -34,16 +38,29 @@ in_data['pointnumber'] = range(1, len(in_data) + 1)
 #print(in_data)
 
 #\\export in_data as txt
-in_data.to_csv("D:\Obtain3D/0409/in.txt", sep=' ', index=False, header=False)
+in_data.to_csv("in.txt", sep=' ', index=False, header=False)
 
 #\\create a part_data with 3 columns: pointnumber, size, type. pointnumber is the same as in_data. size is all 25. type is all 2.
 part_data = pd.DataFrame(columns=['pointnumber', 'size', 'type'])
 part_data['pointnumber'] = in_data['pointnumber']
-part_data['size'] = 25
+part_data['size'] = 50
 part_data['type'] = 2
 
 #export part_data as txt
-part_data.to_csv("D:\Obtain3D/0409/part.txt", sep=' ', index=False, header=False)
+part_data.to_csv("part.txt", sep=' ', index=False, header=False)
 
+#\\create a key.txt file indluding the following:
+f = open("key.txt", "w")
+f.write("x_tilt_1	-20.00\n")
+f.write("x_tilt_2	-15.00\n")
+f.write("y_tilt_1	-10.23\n")
+f.write("y_tilt_2	-10.23\n")
+f.write("scale_pixels/nm	1\n")
+f.write("interfaces	0\n")
+f.write("Spherical_particles_or_cavities	1\n")
+f.write("view	1\n")
+f.write("Number_markers_on_plot	0\n")
+f.write("movie	0\n")
+f.close()
 
 
